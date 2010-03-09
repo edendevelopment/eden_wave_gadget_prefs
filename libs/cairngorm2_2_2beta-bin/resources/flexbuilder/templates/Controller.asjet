@@ -1,0 +1,23 @@
+<%@ jet package="translated" imports="com.adobe.cairngorm.codegen.model.CairngormControllerCodeModel" class="Controller" %>
+<% CairngormControllerCodeModel model = ( CairngormControllerCodeModel ) argument; %>
+package <%=model.getPackageName().getName()%>
+{
+   import com.adobe.cairngorm.control.FrontController;
+
+
+   public class <%=model.getClassName()%> extends FrontController
+   {
+      // do not remove this constant as it is used by the Cairngorm Plugin
+      private static const UUID : String = "<%=model.getControllerId()%>";
+
+      public function <%=model.getClassName()%>()
+      {
+         initialiseCommands();
+      }
+
+      private function initialiseCommands() : void
+      {
+         // TODO Auto-generated add your commands here
+      }
+   }
+}

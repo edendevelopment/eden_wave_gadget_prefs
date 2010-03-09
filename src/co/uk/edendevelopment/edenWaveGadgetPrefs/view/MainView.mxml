@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" width="100%" backgroundColor="#FFFFFF" creationComplete="initApp()">
+	<mx:Script>
+		<![CDATA[
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.model.EdenWaveGadgetModelLocator;
+			import com.flexspy.FlexSpy;
+			
+			[Bindable]
+			private var appModel:EdenWaveGadgetModelLocator = EdenWaveGadgetModelLocator.getInstance();
+			
+			// called on component creation complete event
+			private function initApp():void {
+				trace("TODO: take out flexSpy button"); 
+			}
+		]]>
+	</mx:Script>
+	<mx:Button id="btnFlexSpy" label="FlexSpy" x="5" click="FlexSpy.show()" />
+	<mx:Text text="It works!" />
+</mx:Canvas>

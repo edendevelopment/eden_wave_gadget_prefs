@@ -1,0 +1,31 @@
+<%@ jet package="translated" imports="com.adobe.cairngorm.codegen.model.CairngormCommandCodeModel" class="Command" %>
+<% CairngormCommandCodeModel model = ( CairngormCommandCodeModel ) argument; %>
+package <%=model.getPackageName().getName()%>
+{
+   <% if ( model.hasCommandSupperclass() ) { %>
+   import <%=model.getCommandSupperclass().toString()%>;
+   <%} else {%>
+   import com.adobe.cairngorm.commands.Command;
+   <%} %>
+   import com.adobe.cairngorm.control.CairngormEvent;
+
+   <% if ( model.hasCommandSupperclass() ) { %>
+      public class <%=model.getClassName()%> extends <%=model.getCommandSupperclass().getName()%>
+   <%} else {%>
+      public class <%=model.getClassName()%> implements Command
+   <%} %>
+   {
+      public function <%=model.getClassName()%>()
+      {
+      }
+ 
+      <% if ( model.hasCommandSupperclass() ) { %>
+      public override function execute( event : CairngormEvent ) : void
+      <%} else {%>
+      public function execute( event : CairngormEvent ) : void
+      <%} %>
+      {
+         // TODO Auto-generated add your code here
+      }
+   }
+}

@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
+<meta content="SequenceCommand,com.adobe.cairngorm.commands.SequenceCommand,nextEvent,execute,executeNextCommand" name="keywords">
+<title>com.adobe.cairngorm.commands.SequenceCommand</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'SequenceCommand - Adobe Consulting EMEA - Cairngorm';
+				var baseRef = '../../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../index-list.html')" href="../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../index.html?com/adobe/cairngorm/commands/SequenceCommand.html&amp;com/adobe/cairngorm/commands/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;SequenceCommand</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class SequenceCommand"); titleBar_setSubNav(false,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">com.adobe.cairngorm.commands</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class SequenceCommand</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Implements</td><td><a href="ICommand.html">ICommand</a></td>
+</tr>
+</table>
+<p></p>
+    The SequenceCommand is provided as a "psuedo-abstract" (since ActionScript
+    has no real concept of abstract classes) base-class that can be extended when
+    you wish to chain commands together for a single user-gesture, or establish
+    some simple form of decision-based workflow.
+    
+    <p>
+    By extending SequenceCommand, you can specify the event that should be 
+    broadcast to the controller (causing another command execution
+    without a further user-gesture) when the current command has completed
+    execution.
+    </p>
+        <p>
+    For a command implementing the Responder interface, you may choose to
+    sequence a subsequent command on successful completion of the command,
+    in the onResult() handler, or on failure of the command in the onFault()
+    method.
+    </p>
+        <p>
+    For commands that do not implement the Responder interface, you can 
+    simply chain commands by causing the sequenced command to be invoked
+    as the last action in your command's execute() method.
+    </p>
+        <p>
+    <b>Usage</b>
+    </p>
+        <p>
+    In the constructor of a concrete SequenceCommand implementation, you
+    should set nextEvent to the event that is responsible for calling your 
+    subsequent command.
+    </p>
+    
+    <p>
+    Alternatively, you can override the implicit nextEvent getter, to 
+    programmatically decide at runtime which event should be broadcast
+    next.
+    </p>
+        <p>
+    Invocation of the next command in the sequence is explicitly controlled by
+    the developer, by calling the executeNextCommand() method provided in the
+    SequenceCommand base-class.  This can be called either in the body of the execute() method
+    (for synchronous sequencing) or in the body of an onResult() or onFault()
+    handler (for asynchronous sequencing, that can also support conditional
+    workflow).
+    </p>
+        <p></p>
+<p>
+<span class="classHeaderTableLabel">See also</span>
+</p>
+<div class="seeAlso">
+<a href="../commands/ICommand.html" target="">com.adobe.cairngorm.commands.ICommand</a>
+<br>
+<a href="../control/CairngormEventDispatcher.html" target="">com.adobe.cairngorm.control.CairngormEventDispatcher</a>
+</div>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#nextEvent">nextEvent</a> : <a href="../control/CairngormEvent.html">CairngormEvent</a>
+<div class="summaryTableDescription">
+       The next event in the sequence.</div>
+</td><td class="summaryTableOwnerCol">SequenceCommand</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#SequenceCommand()">SequenceCommand</a>(nextEvent:<a href="../control/CairngormEvent.html">CairngormEvent</a> = null)</div>
+<div class="summaryTableDescription">
+       Constructor, with optional nextEvent.</div>
+</td><td class="summaryTableOwnerCol">SequenceCommand</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#execute()">execute</a>(event:<a href="../control/CairngormEvent.html">CairngormEvent</a>):void</div>
+<div class="summaryTableDescription"> 
+       Abstract implementation of the execute() method.</div>
+</td><td class="summaryTableOwnerCol">SequenceCommand</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#executeNextCommand()">executeNextCommand</a>():void</div>
+<div class="summaryTableDescription">
+       Call to execute the next command in the sequence.</div>
+</td><td class="summaryTableOwnerCol">SequenceCommand</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="nextEvent"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">nextEvent</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var nextEvent:<a href="../control/CairngormEvent.html">CairngormEvent</a></code><p>
+       The next event in the sequence.
+       </p></div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="SequenceCommand()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">SequenceCommand</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function SequenceCommand(nextEvent:<a href="../control/CairngormEvent.html">CairngormEvent</a> = null)</code><p>
+       Constructor, with optional nextEvent.
+       </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">nextEvent</span>:<a href="../control/CairngormEvent.html">CairngormEvent</a></code> (default = <code>null</code>)<code></code></td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="execute()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">execute</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function execute(event:<a href="../control/CairngormEvent.html">CairngormEvent</a>):void</code><p> 
+       Abstract implementation of the execute() method.
+              </p><p>ActionScript does not explicity support abstract methods and abstract classes, so this concrete 
+       implementation of the interface method must be overridden by the developer.</p>
+       
+       <span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:<a href="../control/CairngormEvent.html">CairngormEvent</a></code></td>
+</tr>
+</table>
+</div>
+<a name="executeNextCommand()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">executeNextCommand</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function executeNextCommand():void</code><p>
+       Call to execute the next command in the sequence.
+       
+       </p><p>Called explicitly by the developer within a concrete SequenceCommand implementation, this method causes the
+       event registered with nextEvent to be broadcast, for the next command in the sequence to be called 
+       without further user-gesture.</p>
+       
+       </div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->

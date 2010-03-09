@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="absolute" 
+	creationComplete="initApp()"
+	xmlns:business="co.uk.edendevelopment.edenWaveGadgetPrefs.business.*"
+	xmlns:control="co.uk.edendevelopment.edenWaveGadgetPrefs.control.*"
+	xmlns:view="co.uk.edendevelopment.edenWaveGadgetPrefs.view.*"
+	height="100%" width="100%"
+	backgroundGradientColors="[0x8c8c8c, 0x484647]">
+	
+	<mx:Script>
+		<![CDATA[
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.model.EdenWaveGadgetModelLocator;
+			
+			[Bindable]
+			private var appModel:EdenWaveGadgetModelLocator = EdenWaveGadgetModelLocator.getInstance();
+			
+			private function initApp():void {
+				this.appModel.appRootView = this.rootCanvas;
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Style source="assets/css/app.css" />
+	
+	<!-- the ServiceLocator where we specify the remote services -->
+	<business:Services id="GenericServices"/>
+	
+	<!-- the default FrontContoller for the app -->
+	<control:EdenWaveGadgetController id= "controller" />
+	
+	<view:MainView id="rootCanvas" />
+	
+</mx:Application>

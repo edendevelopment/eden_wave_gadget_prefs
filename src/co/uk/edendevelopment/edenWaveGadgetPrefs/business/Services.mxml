@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cairngorm:ServiceLocator 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:cairngorm="com.adobe.cairngorm.business.*">
+	<!--commented for demo-->
+    <!--
+    <mx:RemoteObject
+    	id="addcontactService"
+    	destination="addcontactService"
+		showBusyCursor="true"
+		result="event.token.resultHandler( event );"
+		fault="event.token.faultHandler( event );">
+    </mx:RemoteObject>         
+	-->
+</cairngorm:ServiceLocator>

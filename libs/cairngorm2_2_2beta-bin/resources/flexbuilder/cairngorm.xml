@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cairngorm>
+   <controller>com.adobe.cairngorm.control.FrontController</controller>
+   <templates>
+      <template name="controller">Controller.asjet</template>
+      <template name="event">Event.asjet</template>
+      <template name="command">Command.asjet</template>
+   </templates>
+</cairngorm>

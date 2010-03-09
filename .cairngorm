@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cairngorm locationId="b693a053-ef2d-4a25-b3e0-5449779cde16">
+  <commandSuperclass></commandSuperclass>
+  <controllers>
+    <controller controllerId="887b44d9-207d-40cc-a439-01ae7349a2c8">
+      <function>EdenWaveGadgetController</function>
+      <events>co.uk.edendevelopment.edenWaveGadgetPrefs.event</events>
+      <commands>co.uk.edendevelopment.edenWaveGadgetPrefs.command</commands>
+    </controller>
+  </controllers>
+</cairngorm>

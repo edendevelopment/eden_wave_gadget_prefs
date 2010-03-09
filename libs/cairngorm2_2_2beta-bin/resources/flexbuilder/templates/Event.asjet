@@ -1,0 +1,23 @@
+<%@ jet package="translated" imports="com.adobe.cairngorm.codegen.model.CairngormEventCodeModel" class="Event" %>
+<% CairngormEventCodeModel model = ( CairngormEventCodeModel ) argument; %>
+package <%=model.getPackageName().getName()%>
+{
+   import com.adobe.cairngorm.control.CairngormEvent;
+
+   import flash.events.Event;
+
+   public class <%=model.getClassName()%> extends CairngormEvent 
+   {
+      public static const EVENT_NAME : String = "<%=model.getEventName()%>";
+
+      public function <%=model.getClassName()%>( bubbles : Boolean = false, cancelable : Boolean = false )
+      {
+         super( EVENT_NAME, bubbles, cancelable );
+      }
+
+      public override function clone() : Event
+      {
+         return new <%=model.getClassName()%>( bubbles, cancelable );
+      }
+   }
+}
