@@ -2,18 +2,38 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" width="100%" backgroundColor="#FFFFFF" creationComplete="initApp()">
 	<mx:Script>
 		<![CDATA[
-			import co.uk.edendevelopment.edenWaveGadgetPrefs.model.EdenWaveGadgetModelLocator;
+			import com.nextgenapp.wave.gadget.Wave;
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.wave.WaveCallbackHandlers;
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.model.EdenWaveGadgetPrefsModelLocator;
 			import com.flexspy.FlexSpy;
 			
 			[Bindable]
-			private var appModel:EdenWaveGadgetModelLocator = EdenWaveGadgetModelLocator.getInstance();
+			private var appModel:EdenWaveGadgetPrefsModelLocator = EdenWaveGadgetPrefsModelLocator.getInstance();
 			
 			// called on component creation complete event
 			private function initApp():void {
-				trace("TODO: take out flexSpy button"); 
+				// trace("TODO: take out flexSpy button");
+				appModel.appRootView = this;
+				
+				appModel.appWave = new Wave();
+				appModel.appWave.setStateCallback(WaveCallbackHandlers.handleWaveStateCallback);
+				appModel.appWave.setParticipantCallback(WaveCallbackHandlers.handleWaveParticipantCallback);
+				
+				if(appModel.appWave.getState() != null && appModel.appWave.getState().getStringValue("my_super_pref") != null)  {
+					myPrefsTextBox.text = appModel.appWave.getState().getStringValue("my_super_pref");
+				}
+			}
+			
+			private function handleTestButtonClick(e:Event=null):void {
+				var obj:Object = new Object();
+				obj.my_super_pref = myPrefsTextBox.text;
+				appModel.appWave.submitDelta(obj);
 			}
 		]]>
 	</mx:Script>
-	<mx:Button id="btnFlexSpy" label="FlexSpy" x="5" click="FlexSpy.show()" />
-	<mx:Text text="It works!" />
+	<!--<mx:Button id="btnFlexSpy" label="FlexSpy" x="5" click="FlexSpy.show()" />-->
+	<mx:Button id="testButton" x="26" y="56" label="Do It!" click="handleTestButtonClick(event)" />
+	<mx:TextInput id="myPrefsTextBox" x="26" y="26" text="Change My Text"/>
+	<mx:VBox id="historyVBox" x="26" y="86" width="100%" height="100%">
+	</mx:VBox>
 </mx:Canvas>

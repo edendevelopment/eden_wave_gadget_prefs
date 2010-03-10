@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+location: http://static.edendevelopment.co.uk/eden_wave_gadget_prefs/eden-wave-gadget-prefs.xml
+modified from  
+http://gadget-doc-examples.googlecode.com/svn/trunk/wave/wave_simple_state_example.xml
+to load a wave-enabled flex app.   
+--> 
+<Module>
+<ModulePrefs title="State Example" height="400">
+    <Require feature="rpc" />
+    <Require feature="flash" /> 
+  </ModulePrefs>
+<Content type="html">
+<![CDATA[ 
+ 
+  <script type="text/javascript"
+      src="http://wave-api.appspot.com/public/wave.js"></script>
+  <script type="text/javascript"
+      src="http://static.edendevelopment.co.uk/eden_wave_gadget_prefs/wave-as-client.js"></script>
+      
+    <script type="text/javascript">
+
+    </script>
+    
+    <object id="wave_simple_state_example1" name="wave_simple_state_example1"
+                        type="application/x-shockwave-flash"
+                        data="http://static.edendevelopment.co.uk/eden_wave_gadget_prefs/eden_wave_gadget_prefs.swf"
+                        width="300" height="200">
+                <param name="movie"
+                        value="http://static.edendevelopment.co.uk/eden_wave_gadget_prefs/eden_wave_gadget_prefs.swf"
+                />              
+                <param name="quality" value="high" />
+                <param name="wmode" value="transparent" />
+                <param name="allowScriptAccess" value="always" />
+                <param name="allowNetworking" value="all" />
+        </object>
+    
+    <b>You should see a flash file loaded.  v0.2</b>
+<div id="content_div" style="text-align: center; height: 30px;"></div>
+
+  ]]> 
+  </Content>
+</Module>

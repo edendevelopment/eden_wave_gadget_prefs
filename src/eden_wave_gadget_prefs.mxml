@@ -10,10 +10,10 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import co.uk.edendevelopment.edenWaveGadgetPrefs.model.EdenWaveGadgetModelLocator;
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.model.EdenWaveGadgetPrefsModelLocator;
 			
 			[Bindable]
-			private var appModel:EdenWaveGadgetModelLocator = EdenWaveGadgetModelLocator.getInstance();
+			private var appModel:EdenWaveGadgetPrefsModelLocator = EdenWaveGadgetPrefsModelLocator.getInstance();
 			
 			private function initApp():void {
 				this.appModel.appRootView = this.rootCanvas;
@@ -24,7 +24,7 @@
 	<mx:Style source="assets/css/app.css" />
 	
 	<!-- the ServiceLocator where we specify the remote services -->
-	<business:Services id="GenericServices"/>
+	<business:Services id="edenWaveGadgetPrefsServices"/>
 	
 	<!-- the default FrontContoller for the app -->
 	<control:EdenWaveGadgetController id= "controller" />
