@@ -2,13 +2,24 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" width="100%" backgroundColor="#FFFFFF" creationComplete="initApp()">
 	<mx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.CollectionEvent;
+			import mx.utils.ObjectUtil;
+			import co.uk.edendevelopment.jsonUtils.UnwrapJSON;
+			import com.adobe.serialization.json.JSON;
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.vo.WavePrefItemVO;
 			import com.nextgenapp.wave.gadget.Wave;
 			import co.uk.edendevelopment.edenWaveGadgetPrefs.wave.WaveCallbackHandlers;
 			import co.uk.edendevelopment.edenWaveGadgetPrefs.model.EdenWaveGadgetPrefsModelLocator;
 			import com.flexspy.FlexSpy;
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.view.prefsForm.*;
 			
 			[Bindable]
 			private var appModel:EdenWaveGadgetPrefsModelLocator = EdenWaveGadgetPrefsModelLocator.getInstance();
+			
+			// need to create dummy objects of pref form views to load the class
+			private var prefViewString:PrefViewString;
+			private var prefViewBoolean:PrefViewBoolean;
 			
 			// called on component creation complete event
 			private function initApp():void {
@@ -16,24 +27,79 @@
 				appModel.appRootView = this;
 				
 				appModel.appWave = new Wave();
+				
+				this.callLater(initWave);
+			}
+			
+			private function initWave():void {
+				if(appModel.appWave.isInWaveContainer()) {
+					appModel.currentWaveViewerID = appModel.appWave.getViewer().id;
+					appModel.currentWaveViewerDisplayName = appModel.appWave.getViewer().displayName;
+				}
+				
 				appModel.appWave.setStateCallback(WaveCallbackHandlers.handleWaveStateCallback);
 				appModel.appWave.setParticipantCallback(WaveCallbackHandlers.handleWaveParticipantCallback);
 				
-				if(appModel.appWave.getState() != null && appModel.appWave.getState().getStringValue("my_super_pref") != null)  {
-					myPrefsTextBox.text = appModel.appWave.getState().getStringValue("my_super_pref");
+				if(appModel.isDebugMode) {
+					appModel.prefWaveSetupDefAC.removeAll();
+					var prefTestUserName:WavePrefItemVO = new WavePrefItemVO();
+					prefTestUserName.prefVarName = "pref_user_name";
+					prefTestUserName.prefVarDescription = "Enter Your Name:";
+					appModel.prefWaveSetupDefAC.source.push(prefTestUserName);
+					
+					var prefTestUserActive:WavePrefItemVO = new WavePrefItemVO();
+					prefTestUserActive.prefVarName = "pref_user_active";
+					prefTestUserActive.prefVarDescription = "Are You Active?";
+					prefTestUserActive.prefVarType = WavePrefItemVO.PREF_VAR_TYPE_BOOLEAN;
+					appModel.prefWaveSetupDefAC.source.push(prefTestUserActive); 
+					
+					var obj:Object = new Object();
+					obj[EdenWaveGadgetPrefsModelLocator.WAVE_PREFERNCE_SETUP_VAR_NAME] = JSON.encode(appModel.prefWaveSetupDefAC.source);
+					appModel.appWave.submitDelta(obj);
+					
+					handlePrefWaveSetupDefACUpdate();
 				}
 			}
 			
-			private function handleTestButtonClick(e:Event=null):void {
-				var obj:Object = new Object();
-				obj.my_super_pref = myPrefsTextBox.text;
-				appModel.appWave.submitDelta(obj);
+			public function handlePrefWaveSetupDefACUpdate(e:CollectionEvent=null):void {
+				prefFormItemVBox.removeAllChildren();
+				for(var i:int=0; i < appModel.prefWaveSetupDefAC.length; i++) {
+					if(appModel.prefWaveSetupDefAC[i] is WavePrefItemVO) {
+						// set the default value if not found
+						if(appModel.appWave.getState() != null && appModel.appWave.getState().getKeys().indexOf((appModel.prefWaveSetupDefAC[i] as WavePrefItemVO).prefVarName) == -1) {
+							var stateObj:Object = new Object();
+							stateObj[(appModel.prefWaveSetupDefAC[i] as WavePrefItemVO).prefVarName]=JSON.encode((appModel.prefWaveSetupDefAC[i] as WavePrefItemVO).prefDefaultValue);
+							appModel.appWave.submitDelta(stateObj);
+						}
+						
+						var objClass:Class = getDefinitionByName('co.uk.edendevelopment.edenWaveGadgetPrefs.view.prefsForm::PrefView'+(appModel.prefWaveSetupDefAC[i] as WavePrefItemVO).prefVarType) as Class;
+						var PrefFromInst:* = new objClass();
+						PrefFromInst.myWavePrefItemVO = (appModel.prefWaveSetupDefAC[i] as WavePrefItemVO);
+						this.prefFormItemVBox.addChild(PrefFromInst);
+					}
+				}
+			}
+			
+			public function handleWaveStateValueUpdates(e:Event=null):void {
+				for(var i:int=0; i < prefFormItemVBox.numChildren; i++) {
+					prefFormItemVBox.getChildAt(i)["setValueFromWave"]();
+				}
+			}
+			
+			private function handlePrefFormSubmit(e:Event=null):void {
+				var deltaObj:Object = new Object();
+				for(var i:int=0; i < prefFormItemVBox.numChildren; i++) {
+					var currentPrefItemVO:WavePrefItemVO = prefFormItemVBox.getChildAt(i)["myWavePrefItemVO"] as WavePrefItemVO;
+					deltaObj[currentPrefItemVO.prefVarName] = JSON.encode(prefFormItemVBox.getChildAt(i)["currentValue"]);
+				}
+				appModel.appWave.submitDelta(deltaObj);
+				mx.controls.Alert.show('Prefs totally set dude! Wave On!');
 			}
 		]]>
 	</mx:Script>
 	<!--<mx:Button id="btnFlexSpy" label="FlexSpy" x="5" click="FlexSpy.show()" />-->
-	<mx:Button id="testButton" x="26" y="56" label="Do It!" click="handleTestButtonClick(event)" />
-	<mx:TextInput id="myPrefsTextBox" x="26" y="26" text="Change My Text"/>
-	<mx:VBox id="historyVBox" x="26" y="86" width="100%" height="100%">
+	<mx:VBox id="wrapperPrefFormVBox" verticalGap="3" width="100%">
+		<mx:VBox id="prefFormItemVBox" width="100%" />
+		<mx:Button id="submitPrefsButton" label="Update Wave Preferences" click="handlePrefFormSubmit(event)" />
 	</mx:VBox>
 </mx:Canvas>

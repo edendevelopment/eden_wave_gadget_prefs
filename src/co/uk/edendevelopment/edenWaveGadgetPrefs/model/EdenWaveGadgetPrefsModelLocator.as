@@ -5,6 +5,7 @@ package co.uk.edendevelopment.edenWaveGadgetPrefs.model
 	import com.adobe.cairngorm.model.ModelLocator;
 	import com.nextgenapp.wave.gadget.Wave;
 	
+	import mx.collections.ArrayCollection;
 	import mx.utils.UIDUtil;
 	
 	[Bindable]
@@ -27,8 +28,15 @@ package co.uk.edendevelopment.edenWaveGadgetPrefs.model
    		
    		public var appRootView:MainView = null; // the core main view (needed for bubbled events)
    		
+   		public var isDebugMode:Boolean = true;
+   		
    		/* application specific variables */
+   		public static const WAVE_PREFERNCE_SETUP_VAR_NAME:String = "pref_wave_setup_def";
+   		
    		public var appWave:Wave;
-
+   		public var currentWaveViewerID:String="";
+   		public var currentWaveViewerDisplayName:String="";
+   		
+		public var prefWaveSetupDefAC:ArrayCollection = new ArrayCollection();
 	}
 }

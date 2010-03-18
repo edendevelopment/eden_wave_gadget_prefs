@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" creationComplete="initApp()" visible="{isVisible}" includeInLayout="{isVisible}">
+	<mx:Script>
+		<![CDATA[
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.model.EdenWaveGadgetPrefsModelLocator;
+			import com.adobe.serialization.json.JSON;
+			import co.uk.edendevelopment.edenWaveGadgetPrefs.vo.WavePrefItemVO;
+			
+			[Bindable]
+			private var appModel:EdenWaveGadgetPrefsModelLocator = EdenWaveGadgetPrefsModelLocator.getInstance();
+			
+			[Bindable]
+			public var myWavePrefItemVO:WavePrefItemVO;
+			
+			[Bindable]
+			private var isVisible:Boolean = false;
+			
+			private function initApp():void {
+				setValueFromWave();
+				this.callLater(setupPrefView);
+			}
+			
+			private function setupPrefView():void {
+				this.isVisible = true;
+			}
+			
+			public function get currentValue():String {
+				return this.itemValue.text;
+			}
+			
+			public function setValueFromWave():void {
+				if(myWavePrefItemVO != null && appModel.appWave.getState() != null) {
+					this.itemValue.text = JSON.decode(appModel.appWave.getState().getStringValue(this.myWavePrefItemVO.prefVarName));
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:VBox width="100%" verticalGap="0">
+		<mx:Text width="100%" htmlText="{myWavePrefItemVO.prefVarDescription}" fontWeight="bold" />
+		<mx:TextInput id="itemValue" width="100%" />
+	</mx:VBox>
+</mx:Canvas>

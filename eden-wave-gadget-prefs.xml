@@ -25,7 +25,7 @@ to load a wave-enabled flex app.
     <object id="wave_simple_state_example1" name="wave_simple_state_example1"
                         type="application/x-shockwave-flash"
                         data="http://static.edendevelopment.co.uk/eden_wave_gadget_prefs/eden_wave_gadget_prefs.swf"
-                        width="300" height="200">
+                        width="500" height="400">
                 <param name="movie"
                         value="http://static.edendevelopment.co.uk/eden_wave_gadget_prefs/eden_wave_gadget_prefs.swf"
                 />              
@@ -34,8 +34,6 @@ to load a wave-enabled flex app.
                 <param name="allowScriptAccess" value="always" />
                 <param name="allowNetworking" value="all" />
         </object>
-    
-    <b>You should see a flash file loaded.  v0.2</b>
 <div id="content_div" style="text-align: center; height: 30px;"></div>
 
   ]]> 
